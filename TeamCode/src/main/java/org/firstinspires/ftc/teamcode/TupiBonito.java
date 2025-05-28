@@ -19,14 +19,14 @@ public class TupiBonito extends LinearOpMode {
     private DcMotor RightBack  ;
 
     // Motores garra
-    private DcMotor CasUp;
-    private DcMotor DeslizaClaw;
-    private DcMotor ColetaClaw;
+   // private DcMotor CasUp;
+   // private DcMotor DeslizaClaw;
+   // private DcMotor ColetaClaw;
 
     // Servos Garra
 
-    private Servo HorizontalServ;
-    private Servo VerticalServ;
+   // private Servo HorizontalServ;
+   // private Servo VerticalServ;
 
 
 
@@ -41,9 +41,9 @@ public class TupiBonito extends LinearOpMode {
         RightBack  = hardwareMap.get(DcMotor.class, "RB");
 
        //Declaração dos valores de garra
-        CasUp = hardwareMap.get(DcMotor.class,"CasUp");
-        DeslizaClaw = hardwareMap.get(DcMotor.class,"DeslizaClaw");
-        ColetaClaw = hardwareMap.get(DcMotor.class,"ColetaClaw");
+      //  CasUp = hardwareMap.get(DcMotor.class,"CasUp");
+       // DeslizaClaw = hardwareMap.get(DcMotor.class,"DeslizaClaw");
+        //ColetaClaw = hardwareMap.get(DcMotor.class,"ColetaClaw");
 
 
         LeftFront.setDirection(DcMotor.Direction.REVERSE);
@@ -56,24 +56,26 @@ public class TupiBonito extends LinearOpMode {
             double max;
 
             //Movimentação do robô
-            double Vertical = gamepad1.right_stick_y;
-            double Horizontal = - gamepad1.right_stick_x;
+            double Vertical = gamepad1.right_stick_x;
+            double Horizontal = - gamepad1.right_stick_y;
             double Pivot = gamepad1.left_stick_x;
 
             //Garras no gamepad
-            float CascadingUp = gamepad2.left_trigger;
-            float CascadingDown = gamepad2.right_trigger;
+           // float CascadingUp = gamepad2.left_stick_y;
 
 
+          //  float DeslizapUp = gamepad2.right_stick_y;
 
+
+            // setando as forças dos motores movimentação
             RightFront.setPower((-Pivot+(Horizontal-Vertical)));
             RightBack.setPower((-Pivot+(Horizontal+Vertical)));
             LeftFront.setPower((Pivot+(Horizontal+Vertical)));
             LeftBack.setPower((Pivot+(Horizontal-Vertical)));
 
-
-            CasUp.setPower(CascadingUp);
-            CasUp.setPower(-CascadingDown);
+            // setando as forças da garra
+         //   CasUp.setPower(CascadingUp);
+           //    DeslizaClaw.setPower(DeslizapUp);
 
 
             //logica do codigo
