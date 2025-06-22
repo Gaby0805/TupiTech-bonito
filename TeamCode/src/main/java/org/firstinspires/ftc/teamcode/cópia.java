@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name="TupiBonito")
+@TeleOp(name="Teste de enviar")
 
-public class TupiBonito extends LinearOpMode {
+public class cópia extends LinearOpMode {
 
     //Instanciado variaveis
 
@@ -70,7 +70,9 @@ public class TupiBonito extends LinearOpMode {
 
 
 
+
         waitForStart();
+
         while (opModeIsActive()) {
             double max;
 
@@ -82,24 +84,27 @@ public class TupiBonito extends LinearOpMode {
             //Garras no gamepad
             float CascadingUp = gamepad2.right_trigger;
             float CascadingDown = gamepad2.left_trigger;
-            double Intake = gamepad2.right_stick_y;
-            double rot = gamepad2.left_stick_y;
+
+
+            double IntakeUp = gamepad2.left_stick_y;
+            double IntakeDown = gamepad2.right_stick_y;
 
 
 
-            if (gamepad2.options) {
+
+            if (gamepad1.options) {
                 ServoPosition = defaultposition;
             }
-            if (gamepad2.left_bumper) {
+            if (gamepad1.left_bumper) {
                 ServoPosition += -ServoSpeed;
             }
-            if (gamepad2.right_bumper) {
+            if (gamepad1.right_bumper) {
                 ServoPosition += ServoSpeed;
             }
-            if (gamepad2.a) {
+            if (gamepad1.a) {
                 queroposition += -querospeed;
             }
-            if (gamepad2.b) {
+            if (gamepad1.b) {
                 queroposition += querospeed;
             }
 
@@ -113,15 +118,10 @@ public class TupiBonito extends LinearOpMode {
             CasUp.setPower(-CascadingDown);
 
 
-            IntakeClaw.setPower(Intake);
-            IntakeClaw.setPower(-Intake);
-
-            ColetaClaw.setPower(rot);
-            ColetaClaw.setPower(-rot);
+            IntakeClaw.setPower(IntakeUp);
+            IntakeClaw.setPower(-IntakeDown);
 
             ServoPosition = Math.min(Math.max(ServoPosition, 0.05), 0.77);
-
-//cipa é esse aqui
             queroposition = Math.min(Math.max(queroposition, 0), 0.37);
             Gozar.setPosition(ServoPosition);
             dentro.setPosition(queroposition);

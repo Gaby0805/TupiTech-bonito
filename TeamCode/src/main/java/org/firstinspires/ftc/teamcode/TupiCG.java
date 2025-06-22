@@ -3,18 +3,17 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name="TupiBonito")
+@TeleOp(name="TupiCG")
 
-public class TupiBonito extends LinearOpMode {
+public class TupiCG extends LinearOpMode {
 
-    //Instanciado variaveis
+    //Instanciado variáveis
 
     // Declaração de motores de movimentação
-    private Servo Gozar;
-    private Servo dentro;
     private DcMotor LeftFront;
     private DcMotor LeftBack  ;
     private DcMotor RightFront  ;
@@ -26,9 +25,8 @@ public class TupiBonito extends LinearOpMode {
     private DcMotor ColetaClaw;
 
     // Servos Garra
-
-    private Servo HorizontalServ;
-    private Servo VerticalServ;
+    private Servo Garra;
+    private Servo GarraFechar;
 
 
 
@@ -43,30 +41,30 @@ public class TupiBonito extends LinearOpMode {
         RightBack  = hardwareMap.get(DcMotor.class, "RB");
 
 
-        double ServoPosition;
-        double queroposition;
-        double querospeed;
-        double ServoSpeed;
-        double defaultposition;
+        double ServoGarraPosition;
+        double ServoGarraFecharPosition;
+        double GarraSpeed;
+        double GarraFecharSpeed;
+        double DefaultPosition;
 
 
         //Declaração dos valores de garra
         CasUp = hardwareMap.get(DcMotor.class,"CasUp");
         IntakeClaw = hardwareMap.get(DcMotor.class,"IntakeClaw");
         ColetaClaw = hardwareMap.get(DcMotor.class,"ColetaClaw");
-        Gozar = hardwareMap.get(Servo.class, "Gozar");
-        dentro = hardwareMap.get(Servo.class, "Dentro");
+        Garra = hardwareMap.get(Servo.class, "Garra");
+        GarraFechar = hardwareMap.get(Servo.class, "GarraFechar");
 
-        queroposition = 0.37;
-        querospeed = 0.02;
-        ServoPosition = 0.47;
-        ServoSpeed = 0.02;
-        defaultposition = 0.47;
+        ServoGarraFecharPosition = 0.37;
+        GarraSpeed = 0.02;
+        ServoGarraPosition = 0.47;
+        GarraFecharSpeed = 0.02;
+        DefaultPosition = 0.47;
 
-        LeftFront.setDirection(DcMotor.Direction.REVERSE);
-        LeftBack.setDirection(DcMotor.Direction.REVERSE);
-        RightFront.setDirection(DcMotor.Direction.FORWARD);
-        RightBack.setDirection(DcMotor.Direction.FORWARD);
+        LeftFront.setDirection(DcMotor.Direction.FORWARD);
+        LeftBack.setDirection(DcMotor.Direction.FORWARD);
+        RightFront.setDirection(DcMotor.Direction.REVERSE);
+        RightBack.setDirection(DcMotor.Direction.REVERSE);
 
 
 
@@ -75,9 +73,9 @@ public class TupiBonito extends LinearOpMode {
             double max;
 
             //Movimentação do robô
-            double Vertical = gamepad1.right_stick_y;
-            double Horizontal = - gamepad1.right_stick_x;
-            double Pivot = gamepad1.left_stick_x;
+            double Vertical = - gamepad1.right_stick_x;
+            double Horizontal = - gamepad1.right_stick_y;
+            double Pivot = - gamepad1.left_stick_x;
 
             //Garras no gamepad
             float CascadingUp = gamepad2.right_trigger;
@@ -85,22 +83,24 @@ public class TupiBonito extends LinearOpMode {
             double Intake = gamepad2.right_stick_y;
             double rot = gamepad2.left_stick_y;
 
+            // Servo voltando pra default na cascading
+
 
 
             if (gamepad2.options) {
-                ServoPosition = defaultposition;
+                ServoGarraPosition = DefaultPosition;
             }
             if (gamepad2.left_bumper) {
-                ServoPosition += -ServoSpeed;
+                ServoGarraPosition += GarraSpeed;
             }
             if (gamepad2.right_bumper) {
-                ServoPosition += ServoSpeed;
+                ServoGarraPosition += -GarraSpeed;
             }
             if (gamepad2.a) {
-                queroposition += -querospeed;
+                ServoGarraFecharPosition += GarraFecharSpeed;
             }
             if (gamepad2.b) {
-                queroposition += querospeed;
+                ServoGarraFecharPosition += -GarraFecharSpeed;
             }
 
             RightFront.setPower((-Pivot+(Horizontal-Vertical)));
@@ -119,19 +119,19 @@ public class TupiBonito extends LinearOpMode {
             ColetaClaw.setPower(rot);
             ColetaClaw.setPower(-rot);
 
-            ServoPosition = Math.min(Math.max(ServoPosition, 0.05), 0.77);
+            ServoGarraPosition = Math.min(Math.max(ServoGarraPosition, 0.05), 0.77);
 
-//cipa é esse aqui
-            queroposition = Math.min(Math.max(queroposition, 0), 0.37);
-            Gozar.setPosition(ServoPosition);
-            dentro.setPosition(queroposition);
-            telemetry.addData("deafault", defaultposition);
-            telemetry.addData("Servo", ServoPosition);
-            telemetry.addData("Servo2", queroposition);
+            //Telemetria do código
+
+            ServoGarraFecharPosition = Math.min(Math.max(ServoGarraFecharPosition, 0.37), 0.47);
+            Garra.setPosition(ServoGarraPosition);
+            GarraFechar.setPosition(ServoGarraFecharPosition);
+            telemetry.addData("Default", DefaultPosition);
+            telemetry.addData("SGarra", ServoGarraPosition);
+            telemetry.addData("SGarraFechar", ServoGarraFecharPosition);
             telemetry.update();
 
             //Lógica do código
-
 
         }
     }
